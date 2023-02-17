@@ -16,65 +16,27 @@
   </a>
 </p>
 
-[中文 README](https://github.com/ssshooter/mind-elixir-core/blob/master/readme.cn.md)
+Mind elixir 是一个无框架依赖的思维导图内核
 
-Mind elixir is a free open source mind map core.
+[English](https://github.com/ssshooter/mind-elixir-core/blob/master/readme.md)
 
-- High performance
-- Lightweight
-- Framework agnostic
-- Pluginable
-- Build-in drag and drop / node edit plugin
-
-<details>
-<summary>Table of Contents</summary>
-
-- [Doc](#doc)
-- [Try now](#try-now)
-- [Playground](#playground)
-- [Usage](#usage)
-  - [Install](#install)
-  - [HTML structure](#html-structure)
-  - [Init](#init)
-  - [Data Structure](#data-structure)
-  - [Event Handling](#event-handling)
-  - [Data Export](#data-export)
-  - [Operation Guards](#operation-guards)
-- [Not only core](#not-only-core)
-
-</details>
-
-## Doc
-
-https://doc.mind-elixir.com/
-
-## Try now
+## 立即尝试
 
 ![mindelixir](https://raw.githubusercontent.com/ssshooter/mind-elixir-core/master/images/screenshot.png)
 
-https://mind-elixir.com/
+https://mind-elixir.com/#/
 
 ### Playground
 
-#### Vanilla JS
-
 https://codepen.io/ssshooter/pen/GVQRYK
 
-#### Use with React 
+with React https://codesandbox.io/s/mind-elixir-react-9sisb
 
-https://codesandbox.io/s/mind-elixir-react-9sisb
+with Vue https://codesandbox.io/s/mind-elixir-vue-nqjjl
 
-#### Use with Vue 
+## 如何使用
 
-https://codesandbox.io/s/mind-elixir-vue-nqjjl
-
-#### Use with Vue3
-
-https://codesandbox.io/s/mind-elixir-vue3-dtcq6u
-
-## Usage
-
-### Install
+### 安装
 
 #### NPM
 
@@ -86,13 +48,13 @@ npm i mind-elixir -S
 import MindElixir, { E } from 'mind-elixir'
 ```
 
-#### Script tag
+#### Script 标签
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/mind-elixir/dist/MindElixir.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mind-elixir/dist/mind-elixir.js"></script>
 ```
 
-### HTML structure
+### HTML 结构
 
 ```html
 <div id="map"></div>
@@ -104,17 +66,19 @@ import MindElixir, { E } from 'mind-elixir'
 </style>
 ```
 
-### Init
-
-**Breaking Change** since 1.0.0, `data` should be passed to `init()`, not `options`.
+### 初始化
 
 ```javascript
 import MindElixir, { E } from 'mind-elixir'
+import { exportSvg, exportPng } from '../dist/painter'
 import example from '../dist/example1'
 
 let options = {
-  el: '#map', // or HTMLDivElement
+  el: '#map',
   direction: MindElixir.LEFT,
+  // create new map data
+  data: MindElixir.new('new topic') or example,
+  // the data return from `.getAllData()`
   draggable: true, // default true
   contextMenu: true, // default true
   toolBar: true, // default true
@@ -150,24 +114,18 @@ let options = {
 }
 
 let mind = new MindElixir(options)
-
-mind.install(plugin) // install your plugin
-
-// create new map data
-const data = MindElixir.new('new topic')
-// or `example`
-// or the data return from `.getAllData()`
-mind.init(data)
+mind.init()
 
 // get a node
 E('node-id')
+
 ```
 
-### Data Structure
+### 数据结构
 
 ```javascript
 // whole node data structure up to now
-nodeData = {
+{
   topic: 'node topic',
   id: 'bd1c24420cd2c2f5',
   style: { fontSize: '32', color: '#3298db', background: '#ecf0f1' },
@@ -175,17 +133,10 @@ nodeData = {
   tags: ['Tag'],
   icons: ['😀'],
   hyperLink: 'https://github.com/ssshooter/mind-elixir-core',
-  children: [
-    {
-      topic: 'child',
-      id: 'xxxx',
-      // ...
-    },
-  ],
 }
 ```
 
-### Event Handling
+### 事件处理
 
 ```javascript
 mind.bus.addListener('operation', operation => {
@@ -211,7 +162,7 @@ mind.bus.addListener('expandNode', node => {
 })
 ```
 
-### Data Export
+### 数据导出
 
 ```javascript
 mind.getAllData() // javascript object, see src/example.js
@@ -219,11 +170,21 @@ mind.getAllDataString() // stringify object
 mind.getAllDataMd() // markdown
 ```
 
-### Operation Guards
+### 输出图片
+
+**WIP**
+
+```javascript
+import painter from 'mind-elixir/dist/painter'
+painter.exportSvg()
+painter.exportPng()
+```
+
+### 操作拦截
 
 ```javascript
 let mind = new MindElixir({
-  // ...
+  ...
   before: {
     insertSibling(el, obj) {
       console.log(el, obj)
@@ -243,8 +204,10 @@ let mind = new MindElixir({
 })
 ```
 
-## Not only core
+## 文档
 
-- [@mind-elixir/export-xmind](https://github.com/ssshooter/export-xmind)
-- [@mind-elixir/export-html](https://github.com/ssshooter/export-html)
-- [@mind-elixir/export-image](https://github.com/ssshooter/export-image) (WIP🚧)
+https://doc.mind-elixir.com/
+
+## 感谢
+
+[canvg](https://github.com/canvg/canvg)
