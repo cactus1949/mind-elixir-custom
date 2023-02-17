@@ -17,7 +17,7 @@ export default function(mind, option) {
   }
   const locale = i18n[mind.locale] ? mind.locale : 'en'
 
-  // const add_child = createLi('cm-add_child', i18n[locale].addChild, 'tab')
+  const add_child = createLi('cm-add_child', i18n[locale].addChild, 'tab')
   const add_parent = createLi('cm-add_parent', i18n[locale].addParent, '')
   const add_sibling = createLi('cm-add_sibling', i18n[locale].addSibling, 'enter')
   const remove_child = createLi(
@@ -33,19 +33,19 @@ export default function(mind, option) {
 
   const menuUl = document.createElement('ul')
   menuUl.className = 'menu-list'
-  // menuUl.appendChild(add_child)
+  menuUl.appendChild(add_child)
   menuUl.appendChild(add_parent)
   menuUl.appendChild(add_sibling)
   menuUl.appendChild(remove_child)
-  if (!option || option.focus) {
-    menuUl.appendChild(focus)
-    menuUl.appendChild(unfocus)
-  }
-  menuUl.appendChild(up)
-  menuUl.appendChild(down)
-  if (!option || option.link) {
-    menuUl.appendChild(link)
-  }
+  // if (!option || option.focus) {
+  //   menuUl.appendChild(focus)
+  //   menuUl.appendChild(unfocus)
+  // }
+  // menuUl.appendChild(up)
+  // menuUl.appendChild(down)
+  // if (!option || option.link) {
+  //   menuUl.appendChild(link)
+  // }
   if (option && option.extend) {
     for (let i = 0; i < option.extend.length; i++) {
       const item = option.extend[i]
@@ -111,10 +111,10 @@ export default function(mind, option) {
     if (e.target === menuContainer) menuContainer.hidden = true
   }
 
-  // add_child.onclick = e => {
-  //   mind.addChild()
-  //   menuContainer.hidden = true
-  // }
+  add_child.onclick = e => {
+    mind.addChild()
+    menuContainer.hidden = true
+  }
   add_parent.onclick = e => {
     mind.insertParent()
     menuContainer.hidden = true
@@ -129,47 +129,47 @@ export default function(mind, option) {
     mind.removeNode()
     menuContainer.hidden = true
   }
-  focus.onclick = e => {
-    if (isRoot) return
-    mind.focusNode(mind.currentNode)
-    menuContainer.hidden = true
-  }
-  unfocus.onclick = e => {
-    mind.cancelFocus()
-    menuContainer.hidden = true
-  }
-  up.onclick = e => {
-    if (isRoot) return
-    mind.moveUpNode()
-    menuContainer.hidden = true
-  }
-  down.onclick = e => {
-    if (isRoot) return
-    mind.moveDownNode()
-    menuContainer.hidden = true
-  }
-  link.onclick = e => {
-    menuContainer.hidden = true
-    const from = mind.currentNode
-    const tips = createTips(i18n[locale].clickTips)
-    mind.container.appendChild(tips)
-    mind.map.addEventListener(
-      'click',
-      e => {
-        e.preventDefault()
-        tips.remove()
-        if (
-          e.target.parentElement.nodeName === 'T' ||
-          e.target.parentElement.nodeName === 'ROOT'
-        ) {
-          mind.createLink(from, mind.currentNode)
-        } else {
-          console.log('link cancel')
-        }
-      },
-      {
-        once: true,
-      }
-    )
-  }
+  // focus.onclick = e => {
+  //   if (isRoot) return
+  //   mind.focusNode(mind.currentNode)
+  //   menuContainer.hidden = true
+  // }
+  // unfocus.onclick = e => {
+  //   mind.cancelFocus()
+  //   menuContainer.hidden = true
+  // }
+  // up.onclick = e => {
+  //   if (isRoot) return
+  //   mind.moveUpNode()
+  //   menuContainer.hidden = true
+  // }
+  // down.onclick = e => {
+  //   if (isRoot) return
+  //   mind.moveDownNode()
+  //   menuContainer.hidden = true
+  // }
+  // link.onclick = e => {
+  //   menuContainer.hidden = true
+  //   const from = mind.currentNode
+  //   const tips = createTips(i18n[locale].clickTips)
+  //   mind.container.appendChild(tips)
+  //   mind.map.addEventListener(
+  //     'click',
+  //     e => {
+  //       e.preventDefault()
+  //       tips.remove()
+  //       if (
+  //         e.target.parentElement.nodeName === 'T' ||
+  //         e.target.parentElement.nodeName === 'ROOT'
+  //       ) {
+  //         mind.createLink(from, mind.currentNode)
+  //       } else {
+  //         console.log('link cancel')
+  //       }
+  //     },
+  //     {
+  //       once: true,
+  //     }
+  //   )
+  // }
 }
